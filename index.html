@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #fafaf8;
+            --bg2: #f3f2ef;
+            --text: #1a1a18;
+            --text2: #6b6a65;
+            --text3: #a8a7a2;
+            --border: rgba(26, 26, 24, 0.1);
+            --border2: rgba(26, 26, 24, 0.18);
+            --accent: #1a1a18;
+            --radius: 10px;
+            --radius-lg: 14px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #111110;
+                --bg2: #1c1c1a;
+                --text: #f0efe9;
+                --text2: #908f89;
+                --text3: #555450;
+                --border: rgba(240, 239, 233, 0.08);
+                --border2: rgba(240, 239, 233, 0.14);
+                --accent: #f0efe9;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 56px;
+            background: var(--bg);
+            border-bottom: 0.5px solid var(--border);
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-logo {
+            font-family: 'DM Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            color: var(--text2);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* LAYOUT */
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 120px 2rem 6rem;
+        }
+
+        /* HERO */
+        .hero {
+            margin-bottom: 5rem;
+        }
+
+        .hero-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--bg2);
+            border: 0.5px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Mono', monospace;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text2);
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .avatar:hover {
+            transform: scale(1.6);
+        }
+
+        .hero-name {
+            font-size: 26px;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-handle {
+            font-size: 13px;
+            color: var(--text3);
+            margin-top: 2px;
+            font-family: 'DM Mono', monospace;
+        }
+
+        .hero-bio {
+            font-size: 16px;
+            color: var(--text2);
+            line-height: 1.7;
+            max-width: 520px;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.1s ease forwards;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.2s ease forwards;
+        }
+
+        .hero-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text2);
+            padding: 6px 12px;
+            border: 0.5px solid var(--border2);
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: all 0.15s;
+            background: var(--bg);
+        }
+
+        .hero-link:hover {
+            color: var(--text);
+            border-color: var(--border2);
+            background: var(--bg2);
+        }
+
+        .hero-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        /* SECTION */
+        section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--text3);
+            text-transform: uppercase;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 0.5px;
+            background: var(--border);
+        }
+
+        /* SKILLS */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill {
+            font-size: 12px;
+            font-family: 'DM Mono', monospace;
+            color: var(--text2);
+            padding: 5px 10px;
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg2);
+            transition: all 0.15s;
+        }
+
+        .skill:hover {
+            border-color: var(--border2);
+            color: var(--text);
+        }
+
+        /* PROJECTS */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+
+        .project-card {
+            background: var(--bg);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.15s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-2px);
+        }
+
+        .project-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-name {
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: var(--bg2);
+            border: 0.5px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .project-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text2);
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .ext-icon svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--text3);
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .project-desc {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.55;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .project-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .lang {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: var(--text3);
+        }
+
+        .lang-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .stars {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--text3);
+        }
+
+        .stars svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--text3);
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .project-skeleton {
+            background: var(--bg2);
+            border-radius: var(--radius-lg);
+            height: 140px;
+            border: 0.5px solid var(--border);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.5
+            }
+        }
+
+        /* CONTACT */
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text2);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .contact-item:hover {
+            color: var(--text);
+        }
+
+        .contact-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            flex-shrink: 0;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 12px;
+            color: var(--text3);
+            font-family: 'DM Mono', monospace;
+            border-top: 0.5px solid var(--border);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ERROR STATE */
+        .error-msg {
+            font-size: 13px;
+            color: var(--text3);
+            font-family: 'DM Mono', monospace;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="nav-logo" href="#" id="nav-logo">~/portfolio</a>
+        <div class="nav-links">
+            <a href="#projects">projects</a>
+            <a href="#skills">skills</a>
+            <a href="#contact">contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-line">
+                <div class="avatar" id="avatar-initials">?</div>
+                <div>
+                    <div class="hero-name" id="hero-name">Loading...</div>
+                    <div class="hero-handle" id="hero-handle"></div>
+                </div>
+            </div>
+            <p class="hero-bio" id="hero-bio">Developer & osu!mania player. Building RL bots, pentesting tools, and web
+                things.</p>
+            <div class="hero-links">
+                <a class="hero-link" id="gh-link" href="#" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                    </svg>
+                    GitHub
+                </a>
+                <a class="hero-link" id="location-link" href="#" style="cursor:default">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span id="location-text">...</span>
+                </a>
+                <a class="hero-link" id="blog-link" href="#" target="_blank" rel="noopener" style="display:none">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    Website
+                </a>
+            </div>
+        </div>
+
+        <!-- SKILLS -->
+        <section id="skills">
+            <div class="section-header">
+                <span class="section-label">Stack</span>
+                <div class="section-line"></div>
+            </div>
+            <div class="skills" id="skills-list">
+                <!-- filled by JS or fallback -->
+                <span class="skill">Python</span>
+                <span class="skill">C++</span>
+                <span class="skill">penetration testing</span>
+                <span class="skill">Linux</span>
+                <span class="skill">Git</span>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects">
+            <div class="section-header">
+                <span class="section-label">Projects</span>
+                <div class="section-line"></div>
+            </div>
+            <div class="projects-grid" id="projects-grid">
+                <div class="project-skeleton"></div>
+                <div class="project-skeleton"></div>
+                <div class="project-skeleton"></div>
+                <div class="project-skeleton"></div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="section-header">
+                <span class="section-label">Contact</span>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-items" id="contact-items">
+                <a class="contact-item" id="contact-gh" href="#" target="_blank">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                    </svg>
+                    <span id="contact-gh-text">github.com/username</span>
+                </a>
+                <a class="contact-item" href="mailto:your@email.com" id="contact-email">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    your@email.com
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>built with github api · <span id="year"></span></footer>
+
+    <script>
+        // ════════════════════════════════════
+        // НАСТРОЙ ЭТИ ПЕРЕМЕННЫЕ ПОД СЕБЯ
+        // ════════════════════════════════════
+        const CONFIG = {
+            username: 'Nichita1111',       // ← ВСТАВЬ СВОЙ GitHub username
+            email: 'nichitabazan1@gmail.com',   // ← ВСТАВЬ свой email
+            maxRepos: 6,               // сколько репозиториев показывать
+        };
+        // ════════════════════════════════════
+
+        const LANG_COLORS = {
+            Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#2b7489',
+            'C++': '#f34b7d', C: '#555555', HTML: '#e34c26', CSS: '#563d7c',
+            Rust: '#dea584', Go: '#00ADD8', Java: '#b07219', Ruby: '#701516',
+            Shell: '#89e051', Lua: '#000080', 'Jupyter Notebook': '#DA5B0B',
+        };
+
+        const REPO_ICONS = {
+            Python: `<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+            JavaScript: `<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+            'C++': `<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+            HTML: `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+            default: `<svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+        };
+
+        const extIcon = `<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        async function loadGitHub() {
+            try {
+                const [userRes, reposRes] = await Promise.all([
+                    fetch(`https://api.github.com/users/${CONFIG.username}`),
+                    fetch(`https://api.github.com/users/${CONFIG.username}/repos?sort=stars&per_page=${CONFIG.maxRepos}&type=public`)
+                ]);
+                if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API error');
+                const user = await userRes.json();
+                const repos = await reposRes.json();
+                renderUser(user);
+                renderRepos(repos);
+            } catch (e) {
+                document.getElementById('hero-name').textContent = CONFIG.username;
+                document.getElementById('hero-handle').textContent = `@${CONFIG.username}`;
+                document.getElementById('avatar-initials').textContent = CONFIG.username[0].toUpperCase();
+                document.getElementById('location-text').textContent = 'GitHub';
+                renderReposFallback();
+            }
+        }
+
+        function renderUser(u) {
+            document.getElementById('hero-name').textContent = u.name || u.login;
+            document.getElementById('hero-handle').textContent = `@${u.login}`;
+            document.getElementById('avatar-initials').textContent = (u.name || u.login)[0].toUpperCase();
+            if (u.bio) document.getElementById('hero-bio').textContent = u.bio;
+            if (u.location) document.getElementById('location-text').textContent = u.location;
+            else document.getElementById('location-text').textContent = 'GitHub';
+            document.getElementById('gh-link').href = u.html_url;
+            document.getElementById('contact-gh').href = u.html_url;
+            document.getElementById('contact-gh-text').textContent = `github.com/${u.login}`;
+            document.getElementById('nav-logo').textContent = `~/${u.login}`;
+            if (u.blog) {
+                const bl = document.getElementById('blog-link');
+                bl.href = u.blog.startsWith('http') ? u.blog : 'https://' + u.blog;
+                bl.style.display = 'inline-flex';
+            }
+            // try avatar image
+            if (u.avatar_url) {
+                const av = document.getElementById('avatar-initials');
+                av.style.overflow = 'hidden';
+                av.innerHTML = `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="avatar">`;
+            }
+            document.getElementById('contact-email').href = `mailto:${CONFIG.email}`;
+            document.getElementById('contact-email').textContent = CONFIG.email;
+            // fix email icon
+            document.getElementById('contact-email').innerHTML = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ${CONFIG.email}`;
+        }
+
+        function renderRepos(repos) {
+            const grid = document.getElementById('projects-grid');
+            if (!repos.length) { grid.innerHTML = '<p class="error-msg">No public repositories found.</p>'; return; }
+            grid.innerHTML = repos.map(r => {
+                const lang = r.language || 'Other';
+                const color = LANG_COLORS[lang] || '#888';
+                const icon = REPO_ICONS[lang] || REPO_ICONS.default;
+                const desc = r.description || 'No description.';
+                return `<a class="project-card" href="${r.html_url}" target="_blank" rel="noopener">
+      <div class="project-top">
+        <div class="project-name">
+          <div class="project-icon">${icon}</div>
+          ${r.name}
+        </div>
+        <div class="ext-icon">${extIcon}</div>
+      </div>
+      <p class="project-desc">${desc}</p>
+      <div class="project-footer">
+        <span class="lang"><span class="lang-dot" style="background:${color}"></span>${lang}</span>
+        <span class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${r.stargazers_count}</span>
+        <span class="stars"><svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>${r.forks_count}</span>
+      </div>
+    </a>`;
+            }).join('');
+        }
+
+        function renderReposFallback() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = `<p class="error-msg">⚠ Не удалось загрузить репозитории. Проверь username в CONFIG.</p>`;
+        }
+
+        // Intersection observer для анимации секций
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+        loadGitHub();
+    </script>
+</body>
+
+</html>
