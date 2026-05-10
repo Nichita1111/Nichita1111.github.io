@@ -459,6 +459,7 @@
         <a class="nav-logo" href="#" id="nav-logo">~/portfolio</a>
         <div class="nav-links">
             <a href="#projects">projects</a>
+            <a href="#history">history</a>
             <a href="#skills">skills</a>
             <a href="#contact">contact</a>
         </div>
@@ -524,6 +525,20 @@
                 <div class="section-line"></div>
             </div>
             <div class="projects-grid" id="projects-grid">
+                <div class="project-skeleton"></div>
+                <div class="project-skeleton"></div>
+                <div class="project-skeleton"></div>
+                <div class="project-skeleton"></div>
+            </div>
+        </section>
+
+        <!-- HISTORY -->
+        <section id="history">
+            <div class="section-header">
+                <span class="section-label">History</span>
+                <div class="section-line"></div>
+            </div>
+            <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-top">
                         <div class="project-name">
@@ -639,11 +654,13 @@
                 const user = await userRes.json();
                 const repos = await reposRes.json();
                 renderUser(user);
+                renderRepos(repos);
             } catch (e) {
                 document.getElementById('hero-name').textContent = CONFIG.username;
                 document.getElementById('hero-handle').textContent = `@${CONFIG.username}`;
                 document.getElementById('avatar-initials').textContent = CONFIG.username[0].toUpperCase();
                 document.getElementById('location-text').textContent = 'GitHub';
+                renderReposFallback();
             }
         }
 
