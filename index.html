@@ -54,6 +54,8 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -92,18 +94,29 @@
             font-size: 13px;
             color: var(--text2);
             text-decoration: none;
-            transition: color 0.15s;
+            transition: all 0.2s ease;
+            padding: 6px 12px;
+            border-radius: 999px;
         }
 
         .nav-links a:hover {
             color: var(--text);
+            background: var(--bg2);
+        }
+
+        .nav-links a.active {
+            background: var(--text);
+            color: var(--bg);
         }
 
         /* LAYOUT */
         main {
+            flex: 1;
             max-width: 720px;
+            width: 100%;
             margin: 0 auto;
-            padding: 120px 2rem 6rem;
+            padding: 120px 2rem 0;
+            padding-bottom: 120px;
         }
 
         /* HERO */
@@ -203,10 +216,11 @@
 
         /* SECTION */
         section {
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.5s, transform 0.5s;
+            scroll-margin-top: 80px;
         }
 
         section.visible {
@@ -425,12 +439,14 @@
 
         /* FOOTER */
         footer {
+            margin-top: auto;
             text-align: center;
-            padding: 2rem;
+            padding: 4rem 2rem 8rem;
             font-size: 12px;
             color: var(--text3);
             font-family: 'DM Mono', monospace;
             border-top: 0.5px solid var(--border);
+            background: var(--bg);
         }
 
         /* ANIMATIONS */
@@ -458,15 +474,19 @@
 
 <body>
 
-    <nav>
-        <a class="nav-logo" href="#" id="nav-logo">~/portfolio</a>
-        <div class="nav-links">
-            <a href="#projects">projects</a>
-            <a href="#history">history</a>
-            <a href="#skills">skills</a>
-            <a href="#contact">contact</a>
-        </div>
-    </nav>
+    <header>
+        <nav>
+            <a class="nav-logo" href="#" id="nav-logo">~/portfolio</a>
+            <div class="nav-links">
+                <a href="#">main</a>
+                <a href="#skills">skills</a>
+                <a href="#projects">projects</a>
+                <a href="#history">history</a>
+                <a href="#contact">contact</a>
+            </div>
+        </nav>
+    </header>
+
 
     <main>
         <!-- HERO -->
@@ -769,6 +789,30 @@
         document.querySelectorAll('section').forEach(s => observer.observe(s));
 
         loadGitHub();
+    </script>
+    <script>
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+
+                if (link.getAttribute("href") === `#${current}`) {
+                    link.classList.add("active");
+                }
+            });
+        });
     </script>
 </body>
 
